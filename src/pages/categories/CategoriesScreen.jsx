@@ -2,7 +2,17 @@ import React from 'react';
 import CategoryList from '../../components/CategoryList';
 import CategoryForm from '../../components/CategoryForm';
 
-const CategoriesScreen = ({ showForm, toggleComponent }) => {
+const CategoriesScreen = ({
+  showForm,
+  toggleComponent,
+  categories,
+  addCategory,
+  editCategory,
+  deleteCategory,
+  editCategoryData,
+  setEditCategory,
+  clearEditCategory,
+}) => {
   return (
     <div>
       <h1>Categories</h1>
@@ -16,7 +26,21 @@ const CategoriesScreen = ({ showForm, toggleComponent }) => {
       </button>
 
       {/* Renderizado condicional */}
-      {showForm ? <CategoryForm /> : <CategoryList />}
+      {showForm ? (
+        <CategoryForm
+          addCategory={addCategory}
+          editCategory={editCategory}
+          editCategoryData={editCategoryData}
+          clearEditCategory={clearEditCategory}
+            toggleComponent={toggleComponent}
+        />
+      ) : (
+        <CategoryList
+          categories={categories}
+          deleteCategory={deleteCategory}
+          setEditCategory={setEditCategory}
+        />
+      )}
     </div>
   );
 };

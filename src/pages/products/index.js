@@ -20,6 +20,7 @@ const Products = () => {
   };
 
   const clearEditProduct = () => {
+    console.log("clearEditProduct");
     setEditProductData(null);
   };
 

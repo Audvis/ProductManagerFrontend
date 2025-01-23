@@ -1,20 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React from 'react';
 
-const CategoryList = () => {
-  const [categories, setCategories] = useState([]);
+const CategoryList = ({ categories, deleteCategory, setEditCategory }) => {
+  const handleDelete = (id) => {
+    if (window.confirm('Are you sure you want to delete this category?')) {
+      deleteCategory(id)
+        .then(() => alert('Category deleted successfully!'))
+        .catch(() => alert('Failed to delete category.'));
+    }
+  };
 
-  useEffect(() => {
-    axios.get(`http://127.0.0.1:5001/categories/`)
-      .then(response => setCategories(response.data))
-      .catch(error => console.error(error));
-  }, []);
+  const handleEdit = (category) => {
+    setEditCategory(category); // Pasa la categoría al formulario para editarla
+  };
 
   return (
     <ul className="list-group">
-      {categories.map(category => (
+      {categories.map((category) => (
         <li key={category.id} className="list-group-item">
-          {category.name}
+          <strong>{category.name}</strong>
+          <br />
+          <button
+            className="btn btn-sm btn-warning mt-2 me-2"
+            onClick={() => handleEdit(category)}
+          >
+            Edit
+          </button>
+          <button
+            className="btn btn-sm btn-danger mt-2"
+            onClick={() => handleDelete(category.id)}
+          >
+            Delete
+          </button>
         </li>
       ))}
     </ul>
@@ -22,4 +38,5 @@ const CategoryList = () => {
 };
 
 export default CategoryList;
+
 

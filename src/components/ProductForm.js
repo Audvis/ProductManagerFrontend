@@ -6,6 +6,7 @@ const ProductForm = ({
   editProductData,
   clearEditProduct,
   categories,
+  toggleComponent,
 }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -22,7 +23,7 @@ console.log("rrrrrrr", categoryId);
       setDescription(editProductData.description);
       setPrice(editProductData.price);
       setStock(editProductData.stock);
-      setCategoryId(editProductData.category || ''); // Inicializar correctamente
+      setCategoryId(editProductData.categoria.id || ''); // Inicializar correctamente
       setIsEditing(true);
     } else {
       clearForm();
@@ -44,6 +45,7 @@ console.log("rrrrrrr", categoryId);
       editProduct(editProductData.id, product)
         .then(() => {
           clearForm();
+            toggleComponent();
           alert('Product updated successfully!');
         })
         .catch(() => alert('Failed to update product.'));
@@ -51,6 +53,7 @@ console.log("rrrrrrr", categoryId);
       addProduct(product)
         .then(() => {
           clearForm();
+          toggleComponent();
           alert('Product added successfully!');
         })
         .catch(() => alert('Failed to add product.'));
@@ -65,7 +68,7 @@ console.log("rrrrrrr", categoryId);
     setStock('');
     setCategoryId('');
     setIsEditing(false);
-    if (clearEditProduct) {
+    if (editProduct) {
       clearEditProduct();
     }
   };
@@ -118,19 +121,20 @@ console.log("rrrrrrr", categoryId);
       <div className="mb-3">
         <label htmlFor="productCategory" className="form-label">Category</label>
         <select
-          className="form-control"
-          id="productCategory"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
-          required
-        >
-          <option value="">Select a category</option>
-          {categories.map((category) => (
-            <option key={category.id} value={category.id}>
-              {category.name}
-            </option>
-          ))}
-        </select>
+  className="form-control"
+  id="productCategory"
+  value={categoryId || ''}
+  onChange={(e) => setCategoryId(e.target.value)}
+  required
+>
+  <option value="">Select a category</option>
+  {categories.map((category) => (
+    <option key={category.id} value={category.id}>
+      {category.name}
+    </option>
+  ))}
+</select>
+
       </div>
       <button type="submit" className="btn btn-primary">
         {isEditing ? 'Update Product' : 'Add Product'}
@@ -139,7 +143,7 @@ console.log("rrrrrrr", categoryId);
         <button
           type="button"
           className="btn btn-secondary ms-2"
-          onClick={clearForm}
+          onClick={toggleComponent}
         >
           Cancel
         </button>

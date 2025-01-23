@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from 'react';
 
-const CategoryForm = () => {
+const CategoryForm = ({ addCategory, editCategory, editCategoryData, clearEditCategory, toggleComponent }) => {
   const [name, setName] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+
+  // Cargar los datos de la categoría en el formulario cuando se edita
+  useEffect(() => {
+    if (editCategoryData) {
+      setName(editCategoryData.name);
+      setIsEditing(true);
+    } else {
+      setName('');
+      setIsEditing(false);
+    }
+  }, [editCategoryData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post(`http://127.0.0.1:5001/categories/`, { name })
-      .then(() => {
-        setName('');
-        alert('Category added successfully!');
-      })
-      .catch(error => console.error(error));
+
+    const category = { name };
+
+    if (isEditing) {
+      editCategory(editCategoryData.id, category)
+        .then(() => {
+            toggleComponent();
+          alert('Category updated successfully!');
+        })
+        .catch(() => alert('Failed to update category.'));
+    } else {
+      addCategory(category)
+        .then(() => {
+            toggleComponent();
+          alert('Category added successfully!');
+        })
+        .catch(() => alert('Failed to add category.'));
+    }
+  };
+
+  const clearForm = () => {
+    setName('');
+    setIsEditing(false);
+    clearEditCategory();
   };
 
   return (
@@ -27,7 +56,18 @@ const CategoryForm = () => {
           required
         />
       </div>
-      <button type="submit" className="btn btn-primary">Add Category</button>
+      <button type="submit" className="btn btn-primary">
+        {isEditing ? 'Update Category' : 'Add Category'}
+      </button>
+      {isEditing && (
+        <button
+          type="button"
+          className="btn btn-secondary ms-2"
+          onClick={toggleComponent}
+        >
+          Cancel
+        </button>
+      )}
     </form>
   );
 };

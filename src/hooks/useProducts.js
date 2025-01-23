@@ -3,9 +3,8 @@ import axios from 'axios';
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
-  const url = process.env.REACT_APP_API_URL;
 
-  // Obtener la lista de productos
+  // Obtener todos los productos
   const fetchProducts = () => {
     axios
       .get(`http://127.0.0.1:5001/products/`)
@@ -13,7 +12,7 @@ const useProducts = () => {
       .catch((error) => console.error('Error fetching products:', error));
   };
 
-  // Agregar un nuevo producto
+  // Agregar un producto
   const addProduct = (newProduct) => {
     return axios
       .post(`http://127.0.0.1:5001/products/`, newProduct)
@@ -24,9 +23,8 @@ const useProducts = () => {
       });
   };
 
-  // Editar un producto existente
+  // Editar un producto
   const editProduct = (id, updatedProduct) => {
-    console.log("fffffff", id,  updatedProduct);
     return axios
       .put(`http://127.0.0.1:5001/products/${id}`, updatedProduct)
       .then(() => fetchProducts())
@@ -39,7 +37,7 @@ const useProducts = () => {
   // Eliminar un producto
   const deleteProduct = (id) => {
     return axios
-      .delete(`http://127.0.0.1:5001/products/${id}/`)
+      .delete(`http://127.0.0.1:5001/products/${id}`)
       .then(() => fetchProducts())
       .catch((error) => {
         console.error('Error deleting product:', error);
@@ -47,7 +45,7 @@ const useProducts = () => {
       });
   };
 
-  // Cargar productos al inicializar
+  // Obtener los productos al inicializar
   useEffect(() => {
     fetchProducts();
   }, []);

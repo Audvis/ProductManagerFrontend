@@ -33,7 +33,8 @@ const ProductsScreen = ({
           editProduct={editProduct}
           editProductData={editProductData}
           clearEditProduct={clearEditProduct}
-            categories={categories}
+          categories={categories}
+          toggleComponent={toggleComponent}
         />
       ) : (
         <ProductList
