@@ -16,23 +16,22 @@ const CategoriesScreen = ({
   return (
     <div>
       <h1>Categories</h1>
-
-      {/* Botón para alternar */}
-      <button
-        className={`btn ${showForm ? 'btn-secondary' : 'btn-primary'} mb-3`}
-        onClick={toggleComponent}
-      >
-        {showForm ? 'Back to Category List' : 'Add Category'}
-      </button>
-
-      {/* Renderizado condicional */}
+      {/* Botón "Add Category" solo aparece cuando no estás en el formulario */}
+      {!showForm && (
+        <button
+          className="btn btn-primary mb-3"
+          onClick={toggleComponent}
+        >
+          Add Category
+        </button>
+      )}
       {showForm ? (
         <CategoryForm
           addCategory={addCategory}
           editCategory={editCategory}
           editCategoryData={editCategoryData}
           clearEditCategory={clearEditCategory}
-            toggleComponent={toggleComponent}
+          toggleComponent={toggleComponent}
         />
       ) : (
         <CategoryList

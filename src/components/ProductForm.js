@@ -5,8 +5,8 @@ const ProductForm = ({
   editProduct,
   editProductData,
   clearEditProduct,
-  categories,
   toggleComponent,
+  categories,
 }) => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -14,25 +14,25 @@ const ProductForm = ({
   const [stock, setStock] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-console.log("rrrrrrr", categoryId);
-  // Cargar los datos del producto en el formulario cuando se edita
+console.log("ProductForm", editProductData);
+  // Cargar datos en el formulario si se está editando
   useEffect(() => {
     if (editProductData) {
-        console.log(editProductData);
       setName(editProductData.name);
       setDescription(editProductData.description);
       setPrice(editProductData.price);
       setStock(editProductData.stock);
-      setCategoryId(editProductData.categoria.id || ''); // Inicializar correctamente
+      setCategoryId(editProductData.category?.id);
       setIsEditing(true);
     } else {
       clearForm();
     }
   }, [editProductData]);
 
-  // Manejar el envío del formulario
+  // Manejo del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const product = {
       name,
       description,
@@ -45,22 +45,22 @@ console.log("rrrrrrr", categoryId);
       editProduct(editProductData.id, product)
         .then(() => {
           clearForm();
-            toggleComponent();
           alert('Product updated successfully!');
+          toggleComponent(); // Volver al listado
         })
         .catch(() => alert('Failed to update product.'));
     } else {
       addProduct(product)
         .then(() => {
           clearForm();
-          toggleComponent();
           alert('Product added successfully!');
+          toggleComponent(); // Volver al listado
         })
         .catch(() => alert('Failed to add product.'));
     }
   };
 
-  // Limpiar el formulario
+  // Limpiar formulario y estado
   const clearForm = () => {
     setName('');
     setDescription('');
@@ -68,9 +68,7 @@ console.log("rrrrrrr", categoryId);
     setStock('');
     setCategoryId('');
     setIsEditing(false);
-    if (editProduct) {
-      clearEditProduct();
-    }
+    clearEditProduct();
   };
 
   return (
@@ -121,33 +119,30 @@ console.log("rrrrrrr", categoryId);
       <div className="mb-3">
         <label htmlFor="productCategory" className="form-label">Category</label>
         <select
-  className="form-control"
-  id="productCategory"
-  value={categoryId || ''}
-  onChange={(e) => setCategoryId(e.target.value)}
-  required
->
-  <option value="">Select a category</option>
-  {categories.map((category) => (
-    <option key={category.id} value={category.id}>
-      {category.name}
-    </option>
-  ))}
-</select>
-
+          className="form-select w-100"
+          id="productCategory"
+          value={categoryId}
+          onChange={(e) => setCategoryId(e.target.value)}
+          required
+        >
+          <option value="">Select a category</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
       </div>
       <button type="submit" className="btn btn-primary">
         {isEditing ? 'Update Product' : 'Add Product'}
       </button>
-      {isEditing && (
-        <button
-          type="button"
-          className="btn btn-secondary ms-2"
-          onClick={toggleComponent}
-        >
-          Cancel
-        </button>
-      )}
+      <button
+        type="button"
+        className="btn btn-secondary ms-2"
+        onClick={toggleComponent} // Regresa al listado al cancelar
+      >
+        Cancel
+      </button>
     </form>
   );
 };

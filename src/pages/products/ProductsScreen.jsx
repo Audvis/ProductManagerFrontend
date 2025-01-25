@@ -17,24 +17,23 @@ const ProductsScreen = ({
   return (
     <div>
       <h1>Products</h1>
-
-      {/* Botón para alternar */}
-      <button
-        className={`btn ${showForm ? 'btn-secondary' : 'btn-primary'} mb-3`}
-        onClick={toggleComponent}
-      >
-        {showForm ? 'Back to Product List' : 'Add Product'}
-      </button>
-
-      {/* Renderizado condicional */}
+      {/* Botón "Add Product" solo aparece si no se está mostrando el formulario */}
+      {!showForm && (
+        <button
+          className="btn btn-primary mb-3"
+          onClick={toggleComponent}
+        >
+          Add Product
+        </button>
+      )}
       {showForm ? (
         <ProductForm
           addProduct={addProduct}
           editProduct={editProduct}
           editProductData={editProductData}
           clearEditProduct={clearEditProduct}
+          toggleComponent={toggleComponent} // Para manejar la funcionalidad de "Cancelar"
           categories={categories}
-          toggleComponent={toggleComponent}
         />
       ) : (
         <ProductList

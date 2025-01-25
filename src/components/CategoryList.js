@@ -1,42 +1,24 @@
 import React from 'react';
+import CategoryCard from './CategoryCard';
 
 const CategoryList = ({ categories, deleteCategory, setEditCategory }) => {
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this category?')) {
-      deleteCategory(id)
-        .then(() => alert('Category deleted successfully!'))
-        .catch(() => alert('Failed to delete category.'));
-    }
-  };
-
-  const handleEdit = (category) => {
-    setEditCategory(category); // Pasa la categoría al formulario para editarla
-  };
+  if (categories.length === 0) {
+    return <p className="text-center">No categories available</p>;
+  }
 
   return (
-    <ul className="list-group">
+    <div className="row">
       {categories.map((category) => (
-        <li key={category.id} className="list-group-item">
-          <strong>{category.name}</strong>
-          <br />
-          <button
-            className="btn btn-sm btn-warning mt-2 me-2"
-            onClick={() => handleEdit(category)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-sm btn-danger mt-2"
-            onClick={() => handleDelete(category.id)}
-          >
-            Delete
-          </button>
-        </li>
+        <div className="col-md-4" key={category.id}>
+          <CategoryCard
+            category={category}
+            deleteCategory={deleteCategory}
+            setEditCategory={setEditCategory}
+          />
+        </div>
       ))}
-    </ul>
+    </div>
   );
 };
 
 export default CategoryList;
-
-

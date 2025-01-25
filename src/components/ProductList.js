@@ -1,41 +1,56 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 const ProductList = ({ products, deleteProduct, setEditProduct }) => {
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this product?')) {
-      deleteProduct(id)
-        .then(() => alert('Product deleted successfully!'))
-        .catch(() => alert('Failed to delete product.'));
-    }
-  };
-
-  const handleEdit = (product) => {
-    setEditProduct(product); // Pasa el producto al formulario para editarlo
-  };
-
   return (
-    <ul className="list-group">
-      {products.map((product) => (
-        <li key={product.id} className="list-group-item">
-          <strong>{product.name}</strong> - ${product.price} <br />
-          <small>{product.description}</small> <br />
-          <span>Stock: {product.stock}</span>
-          <br />
-          <button
-            className="btn btn-sm btn-warning mt-2 me-2"
-            onClick={() => handleEdit(product)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-sm btn-danger mt-2"
-            onClick={() => handleDelete(product.id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+    <div className="table-responsive">
+      <table className="table table-striped table-bordered">
+        <thead className="table-dark">
+          <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Price</th>
+            <th>Stock</th>
+            <th>Category</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {products.length > 0 ? (
+            products.map((product) => (
+              <tr key={product.id}>
+                <td>{product.id}</td>
+                <td>{product.name}</td>
+                <td>{product.description}</td>
+                <td>${product.price.toFixed(2)}</td>
+                <td>{product.stock}</td>
+                <td>{product.category ? product.category.name : 'Uncategorized'}</td>
+                <td>
+                  <button
+                    className="btn btn-sm btn-warning me-2"
+                    onClick={() => setEditProduct(product)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => deleteProduct(product.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="7" className="text-center">
+                No products available
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   );
 };
 

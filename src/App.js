@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Categories from './pages/categories';
 import Products from './pages/products';
+import './styles.css';
 
 const App = () => {
   return (

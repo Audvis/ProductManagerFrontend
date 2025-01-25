@@ -1,28 +1,9 @@
-import React, { useState } from 'react';
-import useProducts from '../../hooks/useProducts';
-import useCategories from '../../hooks/useCategories';
+import React from 'react';
 import ProductsScreen from './ProductsScreen';
+import useScreenProducts from './useScreenProducts';
 
 const Products = () => {
-  const { products, addProduct, editProduct, deleteProduct } = useProducts();
-  const { categories } = useCategories();
-  const [showForm, setShowForm] = useState(false);
-  const [editProductData, setEditProductData] = useState(null);
-
-  const toggleComponent = () => {
-    setShowForm((prevState) => !prevState);
-    setEditProductData(null); // Limpia el producto en edición
-  };
-
-  const setEditProduct = (product) => {
-    setEditProductData(product);
-    setShowForm(true);
-  };
-
-  const clearEditProduct = () => {
-    console.log("clearEditProduct");
-    setEditProductData(null);
-  };
+  const { products, addProduct, editProduct, deleteProduct, showForm, toggleComponent, editProductData, setEditProduct, clearEditProduct, categories } = useScreenProducts();
 
   return (
     <ProductsScreen

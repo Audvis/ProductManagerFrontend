@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from 'react';
 
-const CategoryForm = ({ addCategory, editCategory, editCategoryData, clearEditCategory, toggleComponent }) => {
+const CategoryForm = ({
+  addCategory,
+  editCategory,
+  editCategoryData,
+  clearEditCategory,
+  toggleComponent,
+}) => {
   const [name, setName] = useState('');
   const [isEditing, setIsEditing] = useState(false);
 
-  // Cargar los datos de la categoría en el formulario cuando se edita
+  // Cargar datos en el formulario cuando se edita
   useEffect(() => {
     if (editCategoryData) {
-      setName(editCategoryData.name);
+      setName(editCategoryData.name); // Cargar el nombre de la categoría
       setIsEditing(true);
     } else {
-      setName('');
-      setIsEditing(false);
+      clearForm();
     }
   }, [editCategoryData]);
 
@@ -23,20 +28,23 @@ const CategoryForm = ({ addCategory, editCategory, editCategoryData, clearEditCa
     if (isEditing) {
       editCategory(editCategoryData.id, category)
         .then(() => {
-            toggleComponent();
+          clearForm();
           alert('Category updated successfully!');
+          toggleComponent(); // Cambiar al listado después de editar
         })
         .catch(() => alert('Failed to update category.'));
     } else {
       addCategory(category)
         .then(() => {
-            toggleComponent();
+          clearForm();
           alert('Category added successfully!');
+          toggleComponent(); // Cambiar al listado después de agregar
         })
         .catch(() => alert('Failed to add category.'));
     }
   };
 
+  // Limpiar formulario y estado
   const clearForm = () => {
     setName('');
     setIsEditing(false);
@@ -59,15 +67,13 @@ const CategoryForm = ({ addCategory, editCategory, editCategoryData, clearEditCa
       <button type="submit" className="btn btn-primary">
         {isEditing ? 'Update Category' : 'Add Category'}
       </button>
-      {isEditing && (
-        <button
-          type="button"
-          className="btn btn-secondary ms-2"
-          onClick={toggleComponent}
-        >
-          Cancel
-        </button>
-      )}
+      <button
+        type="button"
+        className="btn btn-secondary ms-2"
+        onClick={toggleComponent} // Regresa al listado al cancelar
+      >
+        Cancel
+      </button>
     </form>
   );
 };
