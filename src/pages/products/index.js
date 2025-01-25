@@ -1,6 +1,8 @@
 import React from 'react';
 import ProductsScreen from './ProductsScreen';
 import useScreenProducts from './useScreenProducts';
+import { useNavigate } from 'react-router-dom';
+
 
 const Products = () => {
   const { products, addProduct, editProduct, deleteProduct, showForm, toggleComponent, editProductData, setEditProduct, clearEditProduct, categories } = useScreenProducts();

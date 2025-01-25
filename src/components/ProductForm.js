@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { validateProduct } from '../utils/validations';
 
 const ProductForm = ({
   addProduct,
@@ -14,7 +15,8 @@ const ProductForm = ({
   const [stock, setStock] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [isEditing, setIsEditing] = useState(false);
-console.log("ProductForm", editProductData);
+  const [errors, setErrors] = useState({}); // Estado para manejar los errores
+
   // Cargar datos en el formulario si se está editando
   useEffect(() => {
     if (editProductData) {
@@ -40,6 +42,13 @@ console.log("ProductForm", editProductData);
       stock: parseInt(stock, 10),
       category_id: parseInt(categoryId, 10),
     };
+
+    // Validar el producto
+    const validationErrors = validateProduct(product, categories);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors); // Mostrar errores si hay alguno
+      return;
+    }
 
     if (isEditing) {
       editProduct(editProductData.id, product)
@@ -68,6 +77,7 @@ console.log("ProductForm", editProductData);
     setStock('');
     setCategoryId('');
     setIsEditing(false);
+    setErrors({});
     clearEditProduct();
   };
 
@@ -77,12 +87,12 @@ console.log("ProductForm", editProductData);
         <label htmlFor="productName" className="form-label">Product Name</label>
         <input
           type="text"
-          className="form-control"
+          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
           id="productName"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          required
         />
+        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
       </div>
       <div className="mb-3">
         <label htmlFor="productDescription" className="form-label">Description</label>
@@ -98,32 +108,33 @@ console.log("ProductForm", editProductData);
         <input
           type="number"
           step="0.01"
-          className="form-control"
+          className={`form-control ${errors.price ? 'is-invalid' : ''}`}
           id="productPrice"
           value={price}
           onChange={(e) => setPrice(e.target.value)}
-          required
+         
         />
+        {errors.price && <div className="invalid-feedback">{errors.price}</div>}
       </div>
       <div className="mb-3">
         <label htmlFor="productStock" className="form-label">Stock</label>
         <input
           type="number"
-          className="form-control"
+          className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
           id="productStock"
           value={stock}
           onChange={(e) => setStock(e.target.value)}
-          required
+          
         />
+        {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
       </div>
       <div className="mb-3">
         <label htmlFor="productCategory" className="form-label">Category</label>
         <select
-          className="form-select w-100"
+          className={`form-select ${errors.category_id ? 'is-invalid' : ''}`}
           id="productCategory"
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          required
         >
           <option value="">Select a category</option>
           {categories.map((category) => (
@@ -132,6 +143,9 @@ console.log("ProductForm", editProductData);
             </option>
           ))}
         </select>
+        {errors.category_id && (
+          <div className="invalid-feedback">{errors.category_id}</div>
+        )}
       </div>
       <button type="submit" className="btn btn-primary">
         {isEditing ? 'Update Product' : 'Add Product'}

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { validateCategory } from '../utils/validations';
 
 const CategoryForm = ({
   addCategory,
@@ -7,48 +8,52 @@ const CategoryForm = ({
   clearEditCategory,
   toggleComponent,
 }) => {
-  const [name, setName] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+  const [category, setCategory] = useState({
+    name: '',
+  });
+  const [errors, setErrors] = useState({});
 
-  // Cargar datos en el formulario cuando se edita
   useEffect(() => {
     if (editCategoryData) {
-      setName(editCategoryData.name); // Cargar el nombre de la categoría
-      setIsEditing(true);
+      setCategory({
+        name: editCategoryData.name,
+      });
     } else {
       clearForm();
     }
   }, [editCategoryData]);
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCategory((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    const category = { name };
+    const validationErrors = validateCategory(category);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-    if (isEditing) {
-      editCategory(editCategoryData.id, category)
-        .then(() => {
-          clearForm();
-          alert('Category updated successfully!');
-          toggleComponent(); // Cambiar al listado después de editar
-        })
-        .catch(() => alert('Failed to update category.'));
+    if (editCategoryData) {
+      editCategory(editCategoryData.id, category).then(toggleComponent);
     } else {
-      addCategory(category)
-        .then(() => {
-          clearForm();
-          alert('Category added successfully!');
-          toggleComponent(); // Cambiar al listado después de agregar
-        })
-        .catch(() => alert('Failed to add category.'));
+      addCategory(category).then(toggleComponent);
     }
   };
 
-  // Limpiar formulario y estado
   const clearForm = () => {
-    setName('');
-    setIsEditing(false);
+    setCategory({
+      name: '',
+    });
+    setErrors({});
     clearEditCategory();
+    toggleComponent();
   };
 
   return (
@@ -57,20 +62,22 @@ const CategoryForm = ({
         <label htmlFor="categoryName" className="form-label">Category Name</label>
         <input
           type="text"
-          className="form-control"
+          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
           id="categoryName"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
+          name="name"
+          value={category.name}
+          onChange={handleChange}
+        
         />
+        {errors.name && <div className="invalid-feedback">{errors.name}</div>}
       </div>
       <button type="submit" className="btn btn-primary">
-        {isEditing ? 'Update Category' : 'Add Category'}
+        {editCategoryData ? 'Update Category' : 'Add Category'}
       </button>
       <button
         type="button"
         className="btn btn-secondary ms-2"
-        onClick={toggleComponent} // Regresa al listado al cancelar
+        onClick={clearForm}
       >
         Cancel
       </button>
