@@ -6,8 +6,8 @@ Este es el frontend de la aplicación que permite la gestión de productos y cat
 
 #### **Paso 1: Clona el repositorio**
 ```bash
-git clone <URL_DEL_REPOSITORIO_FRONTEND>
-cd <nombre-del-repositorio-frontend>
+git clone https://github.com/Audvis/ProductManagerFrontend.git
+cd ProductManagerFrontend
 ```
 
 #### **Paso 2: Instala las dependencias**
