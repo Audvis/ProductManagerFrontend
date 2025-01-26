@@ -3,11 +3,13 @@ import axios from 'axios';
 
 const useProducts = () => {
   const [products, setProducts] = useState([]);
+  // const apiUrl = process.env.REACT_APP_API_URL;
+  const apiUrl = "http://127.0.0.1:5001";
 
   // Obtener todos los productos
   const fetchProducts = () => {
     axios
-      .get(`http://127.0.0.1:5001/products/`)
+      .get(`${apiUrl}/products/`)
       .then((response) => setProducts(response.data))
       .catch((error) => console.error('Error fetching products:', error));
   };
@@ -15,7 +17,7 @@ const useProducts = () => {
   // Agregar un producto
   const addProduct = (newProduct) => {
     return axios
-      .post(`http://127.0.0.1:5001/products/`, newProduct)
+      .post(`${apiUrl}/products/`, newProduct)
       .then(() => fetchProducts())
       .catch((error) => {
         console.error('Error adding product:', error);
@@ -26,7 +28,7 @@ const useProducts = () => {
   // Editar un producto
   const editProduct = (id, updatedProduct) => {
     return axios
-      .put(`http://127.0.0.1:5001/products/${id}`, updatedProduct)
+      .put(`${apiUrl}/products/${id}`, updatedProduct)
       .then(() => fetchProducts())
       .catch((error) => {
         console.error('Error editing product:', error);
@@ -37,7 +39,7 @@ const useProducts = () => {
   // Eliminar un producto
   const deleteProduct = (id) => {
     return axios
-      .delete(`http://127.0.0.1:5001/products/${id}`)
+      .delete(`${apiUrl}/products/${id}`)
       .then(() => fetchProducts())
       .catch((error) => {
         console.error('Error deleting product:', error);

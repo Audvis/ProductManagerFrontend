@@ -9,38 +9,52 @@ const ProductForm = ({
   toggleComponent,
   categories,
 }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [price, setPrice] = useState('');
-  const [stock, setStock] = useState('');
-  const [categoryId, setCategoryId] = useState('');
-  const [isEditing, setIsEditing] = useState(false);
+  const [formState, setFormState] = useState({
+    name: '',
+    description: '',
+    price: '',
+    stock: '',
+    categoryId: '',
+    isEditing: false,
+  });
+
   const [errors, setErrors] = useState({}); // Estado para manejar los errores
 
   // Cargar datos en el formulario si se está editando
   useEffect(() => {
     if (editProductData) {
-      setName(editProductData.name);
-      setDescription(editProductData.description);
-      setPrice(editProductData.price);
-      setStock(editProductData.stock);
-      setCategoryId(editProductData.category?.id);
-      setIsEditing(true);
+      setFormState({
+        name: editProductData.name,
+        description: editProductData.description,
+        price: editProductData.price,
+        stock: editProductData.stock,
+        categoryId: editProductData.category?.id,
+        isEditing: true,
+      });
     } else {
       clearForm();
     }
   }, [editProductData]);
+
+  // Manejo del cambio de los campos del formulario
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
 
   // Manejo del envío del formulario
   const handleSubmit = (e) => {
     e.preventDefault();
 
     const product = {
-      name,
-      description,
-      price: parseFloat(price),
-      stock: parseInt(stock, 10),
-      category_id: parseInt(categoryId, 10),
+      name: formState.name,
+      description: formState.description,
+      price: parseFloat(formState.price),
+      stock: parseInt(formState.stock, 10),
+      category_id: parseInt(formState.categoryId, 10),
     };
 
     // Validar el producto
@@ -50,7 +64,7 @@ const ProductForm = ({
       return;
     }
 
-    if (isEditing) {
+    if (formState.isEditing) {
       editProduct(editProductData.id, product)
         .then(() => {
           clearForm();
@@ -71,12 +85,14 @@ const ProductForm = ({
 
   // Limpiar formulario y estado
   const clearForm = () => {
-    setName('');
-    setDescription('');
-    setPrice('');
-    setStock('');
-    setCategoryId('');
-    setIsEditing(false);
+    setFormState({
+      name: '',
+      description: '',
+      price: '',
+      stock: '',
+      categoryId: '',
+      isEditing: false,
+    });
     setErrors({});
     clearEditProduct();
   };
@@ -89,8 +105,9 @@ const ProductForm = ({
           type="text"
           className={`form-control ${errors.name ? 'is-invalid' : ''}`}
           id="productName"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          name="name"
+          value={formState.name}
+          onChange={handleChange}
         />
         {errors.name && <div className="invalid-feedback">{errors.name}</div>}
       </div>
@@ -99,8 +116,9 @@ const ProductForm = ({
         <textarea
           className="form-control"
           id="productDescription"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          name="description"
+          value={formState.description}
+          onChange={handleChange}
         />
       </div>
       <div className="mb-3">
@@ -110,9 +128,9 @@ const ProductForm = ({
           step="0.01"
           className={`form-control ${errors.price ? 'is-invalid' : ''}`}
           id="productPrice"
-          value={price}
-          onChange={(e) => setPrice(e.target.value)}
-         
+          name="price"
+          value={formState.price}
+          onChange={handleChange}
         />
         {errors.price && <div className="invalid-feedback">{errors.price}</div>}
       </div>
@@ -122,9 +140,9 @@ const ProductForm = ({
           type="number"
           className={`form-control ${errors.stock ? 'is-invalid' : ''}`}
           id="productStock"
-          value={stock}
-          onChange={(e) => setStock(e.target.value)}
-          
+          name="stock"
+          value={formState.stock}
+          onChange={handleChange}
         />
         {errors.stock && <div className="invalid-feedback">{errors.stock}</div>}
       </div>
@@ -133,8 +151,9 @@ const ProductForm = ({
         <select
           className={`form-select ${errors.category_id ? 'is-invalid' : ''}`}
           id="productCategory"
-          value={categoryId}
-          onChange={(e) => setCategoryId(e.target.value)}
+          name="categoryId"
+          value={formState.categoryId}
+          onChange={handleChange}
         >
           <option value="">Select a category</option>
           {categories.map((category) => (
@@ -148,7 +167,7 @@ const ProductForm = ({
         )}
       </div>
       <button type="submit" className="btn btn-primary">
-        {isEditing ? 'Update Product' : 'Add Product'}
+        {formState.isEditing ? 'Update Product' : 'Add Product'}
       </button>
       <button
         type="button"
