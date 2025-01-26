@@ -4,7 +4,7 @@ import axios from 'axios';
 const useProducts = () => {
   const [products, setProducts] = useState([]);
   // const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl = "http://127.0.0.1:5001";
+  const apiUrl = "http://127.0.0.1:5000";
 
   // Obtener todos los productos
   const fetchProducts = () => {

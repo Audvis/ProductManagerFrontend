@@ -4,7 +4,7 @@ import axios from 'axios';
 const useCategories = () => {
   const [categories, setCategories] = useState([]);
   // const apiUrl = process.env.REACT_APP_API_URL;
-  const apiUrl = "http://127.0.0.1:5001";
+  const apiUrl = "http://127.0.0.1:5000";
 
   // Obtener todas las categorías
   const fetchCategories = () => {
