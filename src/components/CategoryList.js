@@ -1,42 +1,70 @@
-import React from 'react';
+import React, { useState } from 'react';
+import ConfirmModal from './ConfirmModal';
 
 const CategoryList = ({ categories, deleteCategory, setEditCategory }) => {
-  const handleDelete = (id) => {
-    if (window.confirm('Are you sure you want to delete this category?')) {
-      deleteCategory(id)
+  const [showModal, setShowModal] = useState(false);
+  const [categoryToDelete, setCategoryToDelete] = useState(null);
+
+  const handleDeleteClick = (category) => {
+    setCategoryToDelete(category);
+    setShowModal(true); // Mostrar el modal
+  };
+
+  const confirmDelete = () => {
+    if (categoryToDelete) {
+      deleteCategory(categoryToDelete.id)
         .then(() => alert('Category deleted successfully!'))
         .catch(() => alert('Failed to delete category.'));
     }
+    setShowModal(false);
+    setCategoryToDelete(null);
   };
 
-  const handleEdit = (category) => {
-    setEditCategory(category); // Pasa la categoría al formulario para editarla
+  const cancelDelete = () => {
+    setShowModal(false);
+    setCategoryToDelete(null);
   };
 
   return (
-    <ul className="list-group">
-      {categories.map((category) => (
-        <li key={category.id} className="list-group-item">
-          <strong>{category.name}</strong>
-          <br />
-          <button
-            className="btn btn-sm btn-warning mt-2 me-2"
-            onClick={() => handleEdit(category)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-sm btn-danger mt-2"
-            onClick={() => handleDelete(category.id)}
-          >
-            Delete
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <div className="row">
+        {categories.map((category) => (
+          <div className="col-md-4" key={category.id}>
+            <div className="card shadow-sm mb-3">
+              <div className="card-body">
+                <h5 className="card-title">
+                  {category.name} <small className="text-muted">#{category.id}</small>
+                </h5>
+                <div className="d-flex justify-content-between">
+                  <button
+                    className="btn btn-sm btn-warning"
+                    onClick={() => setEditCategory(category)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="btn btn-sm btn-danger"
+                    onClick={() => handleDeleteClick(category)}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Modal de confirmación */}
+      <ConfirmModal
+        show={showModal}
+        title="Confirm Delete"
+        message={`Are you sure you want to delete the category "${categoryToDelete?.name}"?`}
+        onConfirm={confirmDelete}
+        onCancel={cancelDelete}
+      />
+    </>
   );
 };
 
 export default CategoryList;
-
-

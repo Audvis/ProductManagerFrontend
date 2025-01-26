@@ -1,25 +1,10 @@
 import React, { useState } from 'react';
 import useCategories from '../../hooks/useCategories';
 import CategoriesScreen from './CategoriesScreen';
+import useScreenCategories from './useScreenCategories';
 
 const Categories = () => {
-  const { categories, addCategory, editCategory, deleteCategory } = useCategories();
-  const [showForm, setShowForm] = useState(false);
-  const [editCategoryData, setEditCategoryData] = useState(null);
-
-  const toggleComponent = () => {
-    setShowForm((prevState) => !prevState);
-    setEditCategoryData(null); // Limpia el estado de edición
-  };
-
-  const setEditCategory = (category) => {
-    setEditCategoryData(category);
-    setShowForm(true);
-  };
-
-  const clearEditCategory = () => {
-    setEditCategoryData(null);
-  };
+  const { categories, addCategory, editCategory, deleteCategory, showForm, toggleComponent, editCategoryData, setEditCategory, clearEditCategory } = useScreenCategories();
 
   return (
     <CategoriesScreen

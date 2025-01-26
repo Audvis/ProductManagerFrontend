@@ -1,70 +1,67 @@
-# Getting Started with Create React App
+# Frontend: Gestión de Productos y Categorías
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Este es el frontend de la aplicación que permite la gestión de productos y categorías, desarrollado en React con diseño responsivo.
 
-## Available Scripts
+## **1. Instalación**
 
-In the project directory, you can run:
+#### **Paso 1: Clona el repositorio**
+```bash
+git clone <URL_DEL_REPOSITORIO_FRONTEND>
+cd <nombre-del-repositorio-frontend>
+```
 
-### `npm start`
+#### **Paso 2: Instala las dependencias**
+Usa npm o yarn para instalar las dependencias necesarias:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install
+# o
+yarn install
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### **Paso 3: Ejecuta la aplicación**
+Inicia el servidor de desarrollo:
 
-### `npm test`
+```bash
+npm start
+# o
+yarn start
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+El frontend estará disponible en `http://localhost:3000`.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## **2. Funcionalidades**
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- **Listado de productos y categorías:**
+  - Visualiza los productos en una tabla con sus categorías asociadas.
+  - Visualiza las categorías en forma de tarjetas.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- **Gestión de productos y categorías:**
+  - Formularios dinámicos para agregar, editar o eliminar productos y categorías.
+  - Validaciones en los campos antes de enviar los datos al backend.
 
-### `npm run eject`
+- **Interactividad:**
+  - Navegación entre productos y categorías mediante botones.
+  - Modales de confirmación para acciones críticas como eliminar.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## **3. Requisitos previos**
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Node.js 14 o superior.
+- npm o yarn como gestor de paquetes.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+---
 
-## Learn More
+## **4. Notas adicionales**
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+- Asegúrate de que el backend esté corriendo en `http://127.0.0.1:5000` o ajusta la URL base en el archivo de configuración del frontend.
+- Puedes personalizar los estilos modificando los archivos en la carpeta `src/styles`.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+---
 
-### Code Splitting
+## **5. Contacto**
+Si tienes preguntas o encuentras problemas, no dudes en abrir un issue en el repositorio o contactar al desarrollador.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
