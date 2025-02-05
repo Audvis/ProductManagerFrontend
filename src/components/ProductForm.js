@@ -11,6 +11,7 @@ const ProductForm = ({
 }) => {
   const [formState, setFormState] = useState({
     name: '',
+    apellido: '',
     description: '',
     price: '',
     stock: '',
@@ -25,6 +26,7 @@ const ProductForm = ({
     if (editProductData) {
       setFormState({
         name: editProductData.name,
+        apellido: editProductData.apellido,
         description: editProductData.description,
         price: editProductData.price,
         stock: editProductData.stock,
@@ -51,6 +53,7 @@ const ProductForm = ({
 
     const product = {
       name: formState.name,
+      apellido: formState.apellido,
       description: formState.description,
       price: parseFloat(formState.price),
       stock: parseInt(formState.stock, 10),
@@ -87,6 +90,7 @@ const ProductForm = ({
   const clearForm = () => {
     setFormState({
       name: '',
+      apellido: '',
       description: '',
       price: '',
       stock: '',
@@ -108,6 +112,16 @@ const ProductForm = ({
           name="name"
           value={formState.name}
           onChange={handleChange}
+        />
+         <label htmlFor="apellido" className="form-label">Apellido</label>
+        <input
+          type="text"
+          className={`form-control ${errors.name ? 'is-invalid' : ''}`}
+          id="productApellido"
+          name="apellido"
+          value={formState.apellido}
+          onChange={handleChange}
+          required
         />
         {errors.name && <div className="invalid-feedback">{errors.name}</div>}
       </div>

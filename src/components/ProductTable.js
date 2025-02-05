@@ -4,7 +4,7 @@ import ConfirmModal from './ConfirmModal';
 const ProductTable = ({ products = [], deleteProduct, setEditProduct }) => {
   const [showModal, setShowModal] = useState(false);
   const [productToDelete, setProductToDelete] = useState(null);
-
+console.log(products)
   const handleDeleteClick = (product) => {
     setProductToDelete(product);
     setShowModal(true); // Mostrar el modal
@@ -33,6 +33,7 @@ const ProductTable = ({ products = [], deleteProduct, setEditProduct }) => {
             <tr>
               <th>ID</th>
               <th>Name</th>
+              <th>Apellido</th>
               <th>Description</th>
               <th>Price</th>
               <th>Stock</th>
@@ -46,6 +47,7 @@ const ProductTable = ({ products = [], deleteProduct, setEditProduct }) => {
                 <tr key={product.id}>
                   <td>{product.id}</td>
                   <td>{product.name}</td>
+                  <td>{product.apellido}</td>
                   <td>{product.description}</td>
                   <td>${product.price.toFixed(2)}</td>
                   <td>{product.stock}</td>
